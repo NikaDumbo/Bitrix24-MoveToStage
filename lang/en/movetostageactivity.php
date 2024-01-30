@@ -1,0 +1,6 @@
+<?
+$MESS['MOVETOSTAGE_DEAL_FIELD_TITLE'] = "Deal ID";
+$MESS['MOVETOSTAGE_STAGE_FIELD_TITLE'] = "New stage";
+$MESS['MOVETOSTAGE_AUTOMATION_FIELD_TITLE'] = "Enable automation";
+$MESS['MOVETOSTAGE_FIELD_NOT_SPECIFIED'] = "The '#FIELD_NAME#' parameter is not specified.";
+$MESS['MOVETOSTAGE_FIELD_VALUE_DOES_NOT_EXISTS'] = "The '#FIELD_NAME#' parameter value doesn't exists.";

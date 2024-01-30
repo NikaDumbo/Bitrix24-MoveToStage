@@ -6,6 +6,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 
 use Bitrix\Bizproc\FieldType;
 use Local\Facades\Deal;
+use Bitrix\Crm\StatusTable;
+use Bitrix\Main\Loader;
+
+Loader::includeModule("crm");
 
 class CBPMoveToStageActivity extends CBPActivity
 {
@@ -146,7 +150,7 @@ class CBPMoveToStageActivity extends CBPActivity
                 $arErrors[] = array(
                     "code" => "emptyText",
                     "parameter" => $fieldID,
-                    "message" => str_replace("#FIELD_NAME#", $arFieldProperties["Name"], GetMessage("JC_GWC_FIELD_NOT_SPECIFIED")),
+                    "message" => str_replace("#FIELD_NAME#", $arFieldProperties["Name"], GetMessage("MOVETOSTAGE_FIELD_NOT_SPECIFIED")),
                 );
             }
         }
@@ -159,36 +163,40 @@ class CBPMoveToStageActivity extends CBPActivity
      * 
      * @return array
      */
-    private static function getPropertiesDialogMap($documentType = array())
+    private static function getPropertiesDialogMap()
     {
-        $arTemplates = array();
-        if (is_array($documentType) && !empty($documentType)) {
-            foreach (CBPDocument::GetWorkflowTemplatesForDocumentType($documentType) as $arTemplate) {
-                $arTemplates[$arTemplate["ID"]] = $arTemplate["NAME"];
-            }
-        }
+
+        $statuses = StatusTable::getList([
+            "select" => ["STATUS_NAME" => "NAME"],
+            "filter" => [
+                "%=ENTITY_ID" => "DEAL_STAGE%"
+            ],
+            "group" => ["NAME"]
+        ])->fetchAll();
+
+        $arStages = array_column($statuses, "STATUS_NAME");
+
 
         return [
-            "Template" => [
-                "Name" => GetMessage("JC_GWC_TEMPLATES_FIELD_TITLE"),
-                "FieldName" => "Template",
-                "Type" => FieldType::SELECT,
-                "OPTIONS" => $arTemplates,
+            "Deal" => [
+                "Name" => GetMessage("MOVETOSTAGE_DEAL_FIELD_TITLE"),
+                "FieldName" => "Deal",
+                "Type" => FieldType::INT,
                 "Required" => true
             ],
-            "Template" => [
-                "Name" => GetMessage("JC_GWC_TEMPLATES_FIELD_TITLE"),
-                "FieldName" => "Template",
+            "Stage" => [
+                "Name" => GetMessage("MOVETOSTAGE_STAGE_FIELD_TITLE"),
+                "FieldName" => "Stage",
                 "Type" => FieldType::SELECT,
-                "OPTIONS" => $arTemplates,
+                "OPTIONS" => $arStages,
                 "Required" => true
             ],
-            "ExcludeCurrent" => [
-                "Name" => GetMessage("JC_GWC_EXCLUDE_CURRENT_FIELD_TITLE"),
-                "FieldName" => "ExcludeCurrent",
+            "EnableAutomation" => [
+                "Name" => GetMessage("MOVETOSTAGE_AUTOMATION_FIELD_TITLE"),
+                "FieldName" => "EnableAutomation",
                 "Type" => FieldType::BOOL,
                 "Required" => true,
-                "Default" => "N",
+                "Default" => "Y",
             ]
         ];
     }
