@@ -51,7 +51,7 @@ class CBPMoveToStageActivity extends CBPActivity
         try {
             Deal::moveToStage($this->Deal, $this->Stage, $this->EnableAutomation);
         } catch (Exception $e) {
-            $this->WriteToTrackingService($e->getMessage(), 0, CBPTrackingType::Report);
+            $this->WriteToTrackingService($e->getMessage(), 0, CBPTrackingType::FaultActivity);
         }
 
         return CBPActivityExecutionStatus::Closed;
