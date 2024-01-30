@@ -7,18 +7,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 use \Bitrix\Main\Localization\Loc;
 
 $arActivityDescription = [
-    "NAME" => Loc::getMessage("HELLOWORLD_DESCR_NAME"),
-    "DESCRIPTION" => Loc::getMessage("HELLOWORLD_DESCR_DESCR"),
+    "NAME" => Loc::getMessage("MOVETOSTAGE_NAME"),
+    "DESCRIPTION" => Loc::getMessage("MOVETOSTAGE_DESCRIPTION"),
     "TYPE" => "activity",
-    "CLASS" => "HelloWorldActivity",
+    "CLASS" => "movetostageactivity",
     "JSCLASS" => "BizProcActivity",
     "CATEGORY" => [
         "ID" => "other",
-    ],
-    "RETURN" => [
-        "Text" => [
-            "NAME" => Loc::getMessage("HELLOWORLD_DESCR_FIELD_TEXT"),
-            "TYPE" => "string",
-        ],
-    ],
+    ]
 ];
