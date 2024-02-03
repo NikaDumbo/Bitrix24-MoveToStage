@@ -49,7 +49,7 @@ class CBPMoveToStageActivity extends CBPActivity
         $rootActivity = $this->GetRootActivity();
 
         try {
-            Deal::moveToStage($this->Deal, $this->Stage, $this->EnableAutomation);
+            Deal::moveToStage($this->Deal, $this->Stage, CBPHelper::getBool($this->EnableAutomation));
         } catch (Exception $e) {
             $this->WriteToTrackingService($e->getMessage(), 0, CBPTrackingType::FaultActivity);
         }
@@ -177,6 +177,7 @@ class CBPMoveToStageActivity extends CBPActivity
         $arStages = array_column($statuses, "STATUS_NAME");
 
 
+
         return [
             "Deal" => [
                 "Name" => GetMessage("MOVETOSTAGE_DEAL_FIELD_TITLE"),
@@ -188,7 +189,7 @@ class CBPMoveToStageActivity extends CBPActivity
                 "Name" => GetMessage("MOVETOSTAGE_STAGE_FIELD_TITLE"),
                 "FieldName" => "Stage",
                 "Type" => FieldType::SELECT,
-                "OPTIONS" => $arStages,
+                "OPTIONS" => array_combine($arStages, $arStages),
                 "Required" => true
             ],
             "EnableAutomation" => [
