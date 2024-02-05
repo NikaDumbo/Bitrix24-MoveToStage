@@ -13,6 +13,7 @@ $arActivityDescription = [
     "CLASS" => "movetostageactivity",
     "JSCLASS" => "BizProcActivity",
     "CATEGORY" => [
-        "ID" => "other",
+        "OWN_ID" => "customActivity",
+        "OWN_NAME" => "Custom Activity",
     ]
 ];
